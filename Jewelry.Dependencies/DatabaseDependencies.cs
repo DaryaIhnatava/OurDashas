@@ -6,6 +6,7 @@ namespace Jewelry.Dependencies
     #region Usings
     using Jewelry.Business.Service;
     using Jewelry.Business.ShapeService;
+    using Jewelry.Database.JewellryRepository;
     using Microsoft.Extensions.DependencyInjection;
     #endregion
 
@@ -22,6 +23,7 @@ namespace Jewelry.Dependencies
         {
             services.AddTransient<IMessageService, MessageService>();
             services.AddTransient<IShapeService, ShapeService>();
+            services.AddTransient<IJewellryRepository, JewellryRepository>();
         }
     }
 }

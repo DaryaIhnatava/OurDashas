@@ -73,12 +73,14 @@ namespace Jewelry.Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             var con = this.configuration.GetConnectionString("DefaultConnection");
-            loggerFactory.AddConsole(includeScopes: true);
+            //loggerFactory.AddConsole(includeScopes: true);
+            // loggerFactory.AddConsole((category, loglevel) => (category=="System" && loglevel >= LogLevel.Error));
+            //loggerFactory.AddDebug(LogLevel.Warning);
             using (logger.BeginScope("Some really useful information"))
             {
                 // something something
 
-                logger.LogError("Oh no.");
+                logger.LogWarning("Oh no.");
             }
             //loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
             //var Llogger = loggerFactory.CreateLogger("FileLogger");

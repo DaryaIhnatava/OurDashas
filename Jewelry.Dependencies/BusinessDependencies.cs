@@ -3,6 +3,7 @@
 // </copyright>
 namespace Jewelry.Dependencies
 {
+    using Jewelry.Business.JewellryService;
     #region Usings
     using Jewelry.Database.ShapeRepository;
     using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,7 @@ namespace Jewelry.Dependencies
         public static void AddJewelryBusinessRegistries(this IServiceCollection services)
         {
             services.AddTransient<IShapeRepository, ShapeRepository>();
+            services.AddTransient<IJewellryService, JewellryService>();
         }
     }
 }

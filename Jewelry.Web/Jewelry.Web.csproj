@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="config.txt" />
+    <None Remove="hibernate.cfg.xml" />
     <None Remove="logger.txt" />
     <None Remove="loggerMine.txt" />
   </ItemGroup>
@@ -18,13 +19,20 @@
     <PackageReference Include="AngularJS.Core" Version="1.7.5" />
     <PackageReference Include="AngularJS.Route" Version="1.7.5" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="2.1.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="hibernate.cfg.xml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -35,5 +43,7 @@
     <ProjectReference Include="..\Jewelry.Business\Jewelry.Business.csproj" />
     <ProjectReference Include="..\Jewelry.Dependencies\Jewelry.Dependencies.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

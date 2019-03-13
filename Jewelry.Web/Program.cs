@@ -7,6 +7,8 @@ namespace Jewelry.Web
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.Console;
+    using Microsoft.Extensions.Logging.Debug;
     using Microsoft.Extensions.Logging.EventLog;
     #endregion
 
@@ -20,7 +22,7 @@ namespace Jewelry.Web
         /// </summary>
         /// <param name="args">The arguments.</param>
         public static void Main(string[] args)
-        {
+    {
             BuildWebHost(args).Run();
         }
 
@@ -32,14 +34,19 @@ namespace Jewelry.Web
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-            .ConfigureLogging((hostingContext, logging) =>
-            {
+            .ConfigureLogging(logging => logging.SetMinimumLevel(LogLevel.Error))
+            //.ConfigureLogging((hostingContext, logging) =>
+            //{
+               // logging.AddFilter("System", LogLevel.Trace)
+               //.AddFilter<DebugLoggerProvider>("Microsoft", LogLevel.Trace)
+               //.AddFilter<ConsoleLoggerProvider>("System",LogLevel.Trace);
                 //logging.ClearProviders();
-                logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                logging.AddConsole(options => options.IncludeScopes = true);
-                //logging.AddConsole();
+               // logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                //logging.AddDebug(LogLevel.Warning);
+                //logging.AddFilter("System", LogLevel.Error);
+                //logging.AddConsole(options => options.IncludeScopes = true);
                 //logging.AddEventLog();
-            })
+            //})
             .Build();
     }
 }

@@ -7,6 +7,7 @@ namespace Jewelry.Database.ShapeRepository
     using System.Data.SqlClient;
     using Jewelry.Common;
     using Microsoft.Extensions.Configuration;
+    using NHibernate;
     #endregion
 
     /// <summary>
@@ -47,20 +48,28 @@ namespace Jewelry.Database.ShapeRepository
         /// <param name="shape">The shape.</param>
         public void Insert(Shape shape)
         {
-            using (SqlConnection connection = new SqlConnection(this.connectionString))
+            using (ISession session = NHibernateHelper.OpenSession())
             {
-                connection.Open();
-                string sqlExpression = "InsertShape";
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@name", shape.Name);
-                if (shape.SubShapeId != null)
+                using (ITransaction transaction = session.BeginTransaction())
                 {
-                    command.Parameters.AddWithValue("@subtypeId", shape.SubShapeId);
+                    session.SaveOrUpdate(shape);
+                    transaction.Commit();
                 }
-
-                var result = command.ExecuteNonQuery();
             }
+            //using (SqlConnection connection = new SqlConnection(this.connectionString))
+            //{
+            //    connection.Open();
+            //    string sqlExpression = "InsertShape";
+            //    SqlCommand command = new SqlCommand(sqlExpression, connection);
+            //    command.CommandType = System.Data.CommandType.StoredProcedure;
+            //    command.Parameters.AddWithValue("@name", shape.Name);
+            //    if (shape.SubShapeId != null)
+            //    {
+            //        command.Parameters.AddWithValue("@subtypeId", shape.SubShapeId);
+            //    }
+
+            //    var result = command.ExecuteNonQuery();
+            //}
         }
         #endregion
     }

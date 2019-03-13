@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" 
+                   assembly="Jewelry" 
+                   namespace="Jewelry.Database">
+  
+  <class name="Shapes">
+    <id name="Id">
+      <generator class="guid" />
+    </id>
+    <property name="Name" />
+    <property name="Category" />
+    <property name="SubShapeId" />
+    <property name="ImageId"/>
+  </class>
+  
+</hibernate-mapping>
