@@ -4,7 +4,7 @@
 namespace Jewelry.Business.ShapeService
 {
     #region Usings
-    using Jewelry.Database.Data;
+    using Database.Data;
     #endregion
 
     /// <summary>
