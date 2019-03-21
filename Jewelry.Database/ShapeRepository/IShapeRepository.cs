@@ -4,7 +4,7 @@
 namespace Jewelry.Database.ShapeRepository
 {
     #region Usings
-    using Jewelry.Common;
+    using Jewelry.Database.Data;
     #endregion
 
     /// <summary>

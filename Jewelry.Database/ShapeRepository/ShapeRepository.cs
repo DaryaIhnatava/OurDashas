@@ -4,8 +4,7 @@
 namespace Jewelry.Database.ShapeRepository
 {
     #region Usings
-    using System.Data.SqlClient;
-    using Jewelry.Common;
+    using Data;
     using Microsoft.Extensions.Configuration;
     using NHibernate;
     #endregion
