@@ -1,7 +1,7 @@
 ﻿// <copyright file="Shape.cs" company="CompanyName">
 //     Company copyright tag.
 // </copyright>
-namespace Jewelry.Common
+namespace Jewelry.Database.Data
 {
     #region Usings
     using System.ComponentModel.DataAnnotations;
@@ -18,7 +18,7 @@ namespace Jewelry.Common
         /// The identifier.
         /// </value>
         [Key]
-        public int Id { get; set; }
+        public virtual int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
@@ -26,7 +26,7 @@ namespace Jewelry.Common
         /// <value>
         /// The name.
         /// </value>
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the sub shape identifier.
@@ -34,6 +34,6 @@ namespace Jewelry.Common
         /// <value>
         /// The sub shape identifier.
         /// </value>
-        public int? SubShapeId { get; set; }
+        public virtual int? SubShapeId { get; set; }
     }
 }

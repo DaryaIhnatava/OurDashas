@@ -10,11 +10,11 @@
             Price = new Price(price, currency);
         }
 
-        public string Shape { get; private set; }
+        public string Shape { get; }
 
-        public string Metal { get; private set; }
+        public string Metal { get; }
 
-        public string Brand { get; private set; }
+        public string Brand { get; }
 
         public Price Price { get; set; }
     }

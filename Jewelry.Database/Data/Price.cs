@@ -13,11 +13,7 @@
 
         public double Value
         {
-            get
-            {
-                return value;
-            }
-
+            get => value;
             set
             {
                 if (value > 0)

@@ -18,16 +18,12 @@
 
         public int CompareTo(object obj)
         {
-            Price price = obj as Price;
-            if (price != null)
+            if (obj is Price price)
             {
                 return this.Value.CompareTo(price.Value);
             }
-            else
-            {
-                //It is bad to return throwing exceptions, but there it should be I think
-                throw new ArgumentException("Parameter is not a Price!");
-            }
+
+            throw new ArgumentException("Parameter is not a Price!");
         }
     }
     public enum Currency
