@@ -1,16 +1,18 @@
 ﻿// <copyright file="ShapeService.cs" company="CompanyName">
 //     Company copyright tag.
 // </copyright>
+
+using Jewelry.Database.Data;
+
 namespace Jewelry.Business.ShapeService
 {
     #region Usings
-    using Jewelry.Common;
     using Jewelry.Database.ShapeRepository;
     #endregion
     /// <summary>
     /// Shape service
     /// </summary>
-    /// <seealso cref="Jewelry.Business.ShapeProvider.IShapeService" />
+    /// <seealso cref="IShapeService" />
     public class ShapeService : IShapeService
     {
         #region Private fields
@@ -38,7 +40,7 @@ namespace Jewelry.Business.ShapeService
         /// <param name="shape">The shape.</param>
         public void InsertShape(Shape shape)
         {
-            if (shape.Name != null && shape.Name != string.Empty)
+            if (!string.IsNullOrEmpty(shape.Name))
             {
                 this.shapeRepository.Insert(shape);
             }
