@@ -1,46 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using Jewelry.Business.Data;
-
-namespace Jewelry.Business.CurrencyService
+﻿namespace Jewelry.Business.CurrencyService
 {
+    #region Usings
+    using System;
+    using System.Collections.Generic;
+    using Jewelry.Business.Data;
+    #endregion
+    
     public static class CurrencyConverter
     {
-        private readonly static Dictionary<Tuple<Currency, Currency>, double> dictionary;
+        private static readonly Dictionary<Tuple<Currency, Currency>, double> CurrencyExchangeRates;
 
         static CurrencyConverter()
         {
-            dictionary = new Dictionary<Tuple<Currency, Currency>, double>();
-            dictionary.Add(new Tuple<Currency, Currency>(Currency.Dollar, Currency.Euro), 0.89);
-            dictionary.Add(new Tuple<Currency, Currency>(Currency.Dollar, Currency.Ruble), 65.78);
-            dictionary.Add(new Tuple<Currency, Currency>(Currency.Euro, Currency.Dollar), 1.13);
-            dictionary.Add(new Tuple<Currency, Currency>(Currency.Euro, Currency.Ruble), 74.06);
-            dictionary.Add(new Tuple<Currency, Currency>(Currency.Ruble, Currency.Euro), 0.013);
-            dictionary.Add(new Tuple<Currency, Currency>(Currency.Ruble, Currency.Dollar), 0.015);
+            CurrencyExchangeRates = new Dictionary<Tuple<Currency, Currency>, double>
+            {
+                {new Tuple<Currency, Currency>(Currency.Dollar, Currency.Euro), 0.89},
+                {new Tuple<Currency, Currency>(Currency.Dollar, Currency.Ruble), 65.78},
+                {new Tuple<Currency, Currency>(Currency.Euro, Currency.Dollar), 1.13},
+                {new Tuple<Currency, Currency>(Currency.Euro, Currency.Ruble), 74.06},
+                {new Tuple<Currency, Currency>(Currency.Ruble, Currency.Euro), 0.013},
+                {new Tuple<Currency, Currency>(Currency.Ruble, Currency.Dollar), 0.015}
+            };
         }
-        public static void Convert(Jewellry jewellry, Currency newCurrency)
+        public static void Convert(Price price, Currency newCurrency)
         {
-            double? exchangeRate = ExchangeRate.Get(jewellry.Price.Currency, newCurrency);
+            double? exchangeRate = GetExchangeRate(price.Currency, newCurrency);
             if (exchangeRate == null)
             {
                 throw new ArgumentException();
             }
 
-            double newPrice = (double)exchangeRate * jewellry.Price.Value;
-            jewellry.Price = new Price(newPrice, newCurrency);
+            double newPrice = (double)exchangeRate * price.Value;
+            price = new Price(newPrice, newCurrency);
         }
 
-        private static double? GetExchangeRate(Currency whatCurrency, Currency intoCurrency)
+        private static double? GetExchangeRate(Currency currencyToConvert, Currency expectedCurrency)
         {
-            double value;
-            if (dictionary.TryGetValue(new System.Tuple<Currency, Currency>(whatCurrency, intoCurrency), out value))
+            if (CurrencyExchangeRates.TryGetValue(new System.Tuple<Currency, Currency>(currencyToConvert, expectedCurrency), out var value))
             {
                 return value;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
     }
