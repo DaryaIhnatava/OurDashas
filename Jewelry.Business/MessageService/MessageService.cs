@@ -1,12 +1,12 @@
 ﻿// <copyright file="MessageService.cs" company="CompanyName">
 //     Company copyright tag.
 // </copyright>
-namespace Jewelry.Business.Service
+namespace Jewelry.Business.MessageService
 {
     /// <summary>
     /// Massage service
     /// </summary>
-    /// <seealso cref="Jewelry.IMessageService" />
+    /// <seealso cref="IMessageService" />
     public class MessageService : IMessageService
     {
         #region Public methods

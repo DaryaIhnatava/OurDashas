@@ -1,7 +1,7 @@
 ﻿// <copyright file="IMessageService.cs" company="CompanyName">
 //     Company copyright tag.
 // </copyright>
-namespace Jewelry.Business.Service
+namespace Jewelry.Business.MessageService
 {
     /// <summary>
     /// Interface for getting message
