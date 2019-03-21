@@ -1,5 +1,12 @@
-﻿using NHibernate;
+﻿using System;
+using System.Data.SqlClient;
+using System.Reflection;
+using System.Threading;
+using NHibernate;
 using NHibernate.Cfg;
+using NHibernate.Dialect;
+using NHibernate.Driver;
+using System.Linq;
 
 namespace Jewelry.Database
 {
@@ -7,12 +14,15 @@ namespace Jewelry.Database
     {
         public static NHibernate.ISession OpenSession()
         {
-            var configuration = new Configuration();
-            var configurePath = @"hibernate.cfg.xml";
-            configuration.Configure(configurePath);
-            ISessionFactory sessionFactory = configuration.BuildSessionFactory();
-            //Позволяет Nhibernate самому создавать в БД таблицу и поля к ним. 
-           // new SchemaUpdate(configuration).Execute(true, true);
+            var cfg = new Configuration();
+            cfg.DataBaseIntegration(x => {
+                x.ConnectionString = @"Data Source=EPBYMOGW0027\SQLEXPRESS;Initial Catalog=JewelryStore;User ID=JUser;Password=J_User123;"; 
+                x.Driver<SqlClientDriver>();
+                x.Dialect<MsSql2008Dialect>();
+                x.LogSqlInConsole = true;
+            });
+            cfg.AddAssembly(Assembly.GetExecutingAssembly());
+            ISessionFactory sessionFactory = cfg.BuildSessionFactory();
             return sessionFactory.OpenSession();
         }
     }
