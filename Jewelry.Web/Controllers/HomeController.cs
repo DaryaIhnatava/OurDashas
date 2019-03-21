@@ -1,11 +1,13 @@
 ﻿// <copyright file="HomeController.cs" company="CompanyName">
 //     Company copyright tag.
 // </copyright>
+
+using Jewelry.Business.MessageService;
+
 namespace Jewelry.Web.Controllers
 {
     #region Usings
     using System.Diagnostics;
-    using Jewelry.Business.Service;
     using Jewelry.Web.Models;
     using Microsoft.AspNetCore.Mvc;
     #endregion

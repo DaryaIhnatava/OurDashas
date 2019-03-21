@@ -1,11 +1,14 @@
 ﻿// <copyright file="ShapeController.cs" company="CompanyName">
 //     Company copyright tag.
 // </copyright>
+
+using Jewelry.Database;
+using Jewelry.Database.Data;
+
 namespace Jewelry.Web.Controllers
 {
     #region Usings
     using Jewelry.Business.ShapeService;
-    using Jewelry.Common;
     using Microsoft.AspNetCore.Mvc;
     #endregion
     /// <summary>
