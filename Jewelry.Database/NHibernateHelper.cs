@@ -1,15 +1,13 @@
-﻿using System;
-using System.Data.SqlClient;
-using System.Reflection;
-using System.Threading;
-using NHibernate;
-using NHibernate.Cfg;
-using NHibernate.Dialect;
-using NHibernate.Driver;
-using System.Linq;
-
-namespace Jewelry.Database
+﻿namespace Jewelry.Database
 {
+    #region Usings
+    using NHibernate;
+    using NHibernate.Cfg;
+    using NHibernate.Dialect;
+    using NHibernate.Driver;
+    using System.Reflection;
+    #endregion
+
     public class NHibernateHelper
     {
         public static NHibernate.ISession OpenSession()
