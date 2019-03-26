@@ -6,9 +6,12 @@ namespace Jewelry.Web
     #region Usings
     using System.IO;
     using Jewelry.Dependencies;
+    using Jewelry.Web.ErrorHandle;
     using Jewelry.Web.Logger;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -73,19 +76,11 @@ namespace Jewelry.Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             var con = this.configuration.GetConnectionString("DefaultConnection");
-            //loggerFactory.AddConsole(includeScopes: true);
-            // loggerFactory.AddConsole((category, loglevel) => (category=="System" && loglevel >= LogLevel.Error));
-            //loggerFactory.AddDebug(LogLevel.Warning);
-            using (logger.BeginScope("Some really useful information"))
+            using (this.logger.BeginScope("Some really useful information"))
             {
-                // something something
-
-                logger.LogWarning("Oh no.");
+                this.logger.LogWarning("Oh no.");
             }
-            //loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
-            //var Llogger = loggerFactory.CreateLogger("FileLogger");
-            //Llogger.LogWarning("FileWarning!");
-            //logger.LogWarning("DEBUG WAAAAARNING!!!!!!!!!!!!!!!!!");
+            
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
@@ -93,7 +88,7 @@ namespace Jewelry.Web
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
             }
 
             app.UseStaticFiles();
