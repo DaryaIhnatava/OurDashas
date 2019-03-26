@@ -39,6 +39,6 @@ namespace Jewelry.Business.JewelryService
         /// </summary>
         /// <param name="jewelryPrice">price of jewelry</param>
         /// <param name="currency">currency on jewelry</param>
-        void ConvertPriceCurrency(Price jewelryPrice, Currency currency);
+        Price ConvertPriceCurrency(Price jewelryPrice, Currency currency);
     }
 }
