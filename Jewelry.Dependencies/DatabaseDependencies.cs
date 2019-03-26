@@ -4,7 +4,7 @@
 namespace Jewelry.Dependencies
 {
     #region Usings
-    using Database.JewellryRepository;
+    using Database.JewelryRepository;
     using Database.ShapeRepository;
     using Microsoft.Extensions.DependencyInjection;
     #endregion
@@ -21,7 +21,7 @@ namespace Jewelry.Dependencies
         public static void AddJewelryDatabaseRegistries(this IServiceCollection services)
         {
             services.AddTransient<IShapeRepository, ShapeRepository>();
-            services.AddTransient<IJewellryRepository, JewellryRepository>();
+            services.AddTransient<IJewelryRepository, JewelryRepository>();
         }
     }
 }
