@@ -85,8 +85,6 @@ namespace Jewelry.Business.JewelryService
             {
                 return;
             }
-            
-            ///CurrencyService.CurrencyConverter.Convert(jewelryPrice, currency);
         }
     }
 }
