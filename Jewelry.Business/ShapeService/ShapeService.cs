@@ -1,14 +1,13 @@
 ﻿// <copyright file="ShapeService.cs" company="CompanyName">
 //     Company copyright tag.
 // </copyright>
-
-using Jewelry.Database.Data;
-
 namespace Jewelry.Business.ShapeService
 {
     #region Usings
+    using Jewelry.Database.Data;
     using Jewelry.Database.ShapeRepository;
     #endregion
+
     /// <summary>
     /// Shape service
     /// </summary>
