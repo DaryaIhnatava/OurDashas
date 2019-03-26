@@ -1,14 +1,14 @@
 ﻿// <copyright file="CurrencyConverter.cs" company="CompanyName">
 //     Company copyright tag.
 // </copyright>
-namespace CurrencyService
+namespace Jewelry.Business.CurrencyService
 {
     #region Usings
     using System;
     using System.Collections.Generic;
     using Jewelry.Business.Data;
     #endregion
-    
+
     /// <summary>
     /// Currency converter class
     /// </summary>
@@ -18,7 +18,7 @@ namespace CurrencyService
         /// Dictionary with exchange rates for all used currencies
         /// </summary>
         private static readonly Dictionary<Tuple<Currency, Currency>, double> CurrencyExchangeRates;
-        
+
         /// <summary>
         /// Constructor of currency converter with initializing of static dictionary with currency rates
         /// </summary>
@@ -26,12 +26,24 @@ namespace CurrencyService
         {
             CurrencyExchangeRates = new Dictionary<Tuple<Currency, Currency>, double>
             {
-                {new Tuple<Currency, Currency>(Currency.Dollar, Currency.Euro), 0.89},
-                {new Tuple<Currency, Currency>(Currency.Dollar, Currency.Ruble), 65.78},
-                {new Tuple<Currency, Currency>(Currency.Euro, Currency.Dollar), 1.13},
-                {new Tuple<Currency, Currency>(Currency.Euro, Currency.Ruble), 74.06},
-                {new Tuple<Currency, Currency>(Currency.Ruble, Currency.Euro), 0.013},
-                {new Tuple<Currency, Currency>(Currency.Ruble, Currency.Dollar), 0.015}
+                {
+                    new Tuple<Currency, Currency>(Currency.Dollar, Currency.Euro), 0.89
+                },
+                {
+                    new Tuple<Currency, Currency>(Currency.Dollar, Currency.Ruble), 65.78
+                },
+                {
+                    new Tuple<Currency, Currency>(Currency.Euro, Currency.Dollar), 1.13
+                },
+                {
+                    new Tuple<Currency, Currency>(Currency.Euro, Currency.Ruble), 74.06
+                },
+                {
+                    new Tuple<Currency, Currency>(Currency.Ruble, Currency.Euro), 0.013
+                },
+                {
+                    new Tuple<Currency, Currency>(Currency.Ruble, Currency.Dollar), 0.015
+                }
             };
         }
 
@@ -57,7 +69,7 @@ namespace CurrencyService
         /// </summary>
         /// <param name="currencyToConvert">currency for converting</param>
         /// <param name="expectedCurrency">expected currency</param>
-        /// <returns></returns>
+        /// <returns>exchange rate</returns>
         private static double? GetExchangeRate(Currency currencyToConvert, Currency expectedCurrency)
         {
             if (CurrencyExchangeRates.TryGetValue(new System.Tuple<Currency, Currency>(currencyToConvert, expectedCurrency), out var value))
