@@ -3,9 +3,9 @@
                    assembly="Jewelry.Database" 
                    namespace="Jewelry.Database.Data">
   
-  <class name="Shape">
-    <id name="Id">
-      <generator class="guid" />
+  <class name="Shape" table="Shapes">
+    <id name="Id" column="Id">
+      <generator class="identity"/>
     </id>
     <property name="Name" />
     <property name="SubShapeId" />
