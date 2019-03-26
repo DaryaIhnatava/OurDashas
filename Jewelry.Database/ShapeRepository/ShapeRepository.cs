@@ -55,20 +55,6 @@ namespace Jewelry.Database.ShapeRepository
                     transaction.Commit();
                 }
             }
-            //using (SqlConnection connection = new SqlConnection(this.connectionString))
-            //{
-            //    connection.Open();
-            //    string sqlExpression = "InsertShape";
-            //    SqlCommand command = new SqlCommand(sqlExpression, connection);
-            //    command.CommandType = System.Data.CommandType.StoredProcedure;
-            //    command.Parameters.AddWithValue("@name", shape.Name);
-            //    if (shape.SubShapeId != null)
-            //    {
-            //        command.Parameters.AddWithValue("@subtypeId", shape.SubShapeId);
-            //    }
-
-            //    var result = command.ExecuteNonQuery();
-            //}
         }
         #endregion
     }
