@@ -79,12 +79,14 @@ namespace Jewelry.Business.JewelryService
         /// <param name="jewelryPrice">The jewelry price</param>
         /// <param name="currency">The currency.</param>
         /// <exception cref="ArgumentException">No exchange rate was found</exception>
-        public void ConvertPriceCurrency(Price jewelryPrice, Currency currency)
+        public Price ConvertPriceCurrency(Price jewelryPrice, Currency currency)
         {
             if (jewelryPrice.Currency == currency)
             {
-                return;
+                return jewelryPrice;
             }
+            CurrencyService.CurrencyConverter.Convert(ref jewelryPrice, currency);
+            return jewelryPrice;
         }
     }
 }
