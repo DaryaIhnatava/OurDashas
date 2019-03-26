@@ -38,10 +38,11 @@ namespace Jewelry.Web.Controllers
         /// <returns>Main jewelry view</returns>
         public IActionResult Index(Business.Data.Jewelry jewelry, Currency currency)
         {
-            this.jewelryService.ConvertPriceCurrency(jewelry.Price, currency);
+            jewelry = new Jewelry("ring", "gold", "Ray", 50, Currency.Dollar);
+            jewelry.Price= this.jewelryService.ConvertPriceCurrency(jewelry.Price, currency);
             return this.View(jewelry);
         }
-
+        
         /// <summary>
         /// Lists the specified property name.
         /// </summary>
