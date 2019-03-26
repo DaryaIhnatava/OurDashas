@@ -1,15 +1,13 @@
 ﻿// <copyright file="HomeController.cs" company="CompanyName">
 //     Company copyright tag.
 // </copyright>
-
-using Jewelry.Business.MessageService;
-
 namespace Jewelry.Web.Controllers
 {
     #region Usings
     using System.Diagnostics;
-    using Jewelry.Web.Models;
+    using Jewelry.Business.Errors;
     using Microsoft.AspNetCore.Mvc;
+    using Models;
     #endregion
 
     /// <summary>
@@ -19,13 +17,11 @@ namespace Jewelry.Web.Controllers
     public class HomeController : Controller
     {
         /// <summary>
-        /// Gets message in Index view
+        /// Indexes this instance.
         /// </summary>
-        /// <param name="messageService">The message service.</param>
-        /// <returns>Index view</returns>
-        public IActionResult Index([FromServices]IMessageService messageService)
+        /// <returns>Main home page</returns>
+        public IActionResult Index()
         {
-            this.ViewBag.Message = messageService.GetMessage();
             return this.View();
         }
 
@@ -35,8 +31,7 @@ namespace Jewelry.Web.Controllers
         /// <returns>About view</returns>
         public IActionResult About()
         {
-            this.ViewData["Message"] = "Your application description page.";
-            return this.View();
+            throw new ExchangeRateNullException("No exchange rate found for current currencies");
         }
 
         /// <summary>
