@@ -39,10 +39,10 @@ namespace Jewelry.Web.Controllers
         public IActionResult Index(Business.Data.Jewelry jewelry, Currency currency)
         {
             jewelry = new Jewelry("ring", "gold", "Ray", 50, Currency.Dollar);
-            jewelry.Price= this.jewelryService.ConvertPriceCurrency(jewelry.Price, currency);
+            jewelry.Price = this.jewelryService.ConvertPriceCurrency(jewelry.Price, currency);
             return this.View(jewelry);
         }
-        
+
         /// <summary>
         /// Lists the specified property name.
         /// </summary>
