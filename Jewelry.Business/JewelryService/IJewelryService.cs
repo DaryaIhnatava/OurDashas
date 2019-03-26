@@ -35,10 +35,11 @@ namespace Jewelry.Business.JewelryService
         IEnumerable<Data.Jewelry> GetFilteredJewelries(string propertyName, params string[] values);
 
         /// <summary>
-        /// Convert jewelry price
+        /// Convert Price Currency
         /// </summary>
-        /// <param name="jewelryPrice">price of jewelry</param>
-        /// <param name="currency">currency on jewelry</param>
+        /// <param name="jewelryPrice">jewelry price</param>
+        /// <param name="currency">currency of jewelry</param>
+        /// <returns>Price of jewelry</returns>
         Price ConvertPriceCurrency(Price jewelryPrice, Currency currency);
     }
 }

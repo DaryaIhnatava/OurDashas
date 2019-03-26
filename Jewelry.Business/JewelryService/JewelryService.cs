@@ -74,11 +74,11 @@ namespace Jewelry.Business.JewelryService
         }
 
         /// <summary>
-        /// 
+        /// Convert Price Currency
         /// </summary>
-        /// <param name="jewelryPrice"></param>
-        /// <param name="currency"></param>
-        /// <returns>New jewelry price</returns>
+        /// <param name="jewelryPrice">jewelry price</param>
+        /// <param name="currency">currency of jewelry</param>
+        /// <returns>New jewelry price of jewelry</returns>
         public Price ConvertPriceCurrency(Price jewelryPrice, Currency currency)
         {
             if (jewelryPrice.Currency == currency)

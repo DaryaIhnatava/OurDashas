@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="BusinessDependencies.cs~RFb146a1.TMP" />
     <None Remove="DatabaseDependencies.cs~RF4acf00.TMP" />
   </ItemGroup>
 
