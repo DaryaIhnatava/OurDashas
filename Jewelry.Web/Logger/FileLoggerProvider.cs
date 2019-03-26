@@ -39,12 +39,12 @@ namespace Jewelry.Web.Logger
         /// <returns>ILogger object</returns>
         public ILogger CreateLogger(string categoryName)
         {
-            //if (logger != null)
-            //{
-            //    logger = new FileLogger(this.path);
-            //}
-            //return logger;
-            return new FileLogger(path);
+            if (this.logger != null)
+            {
+                this.logger = new FileLogger(this.path);
+            }
+
+            return this.logger;
         }
         
         /// <summary>
