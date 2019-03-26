@@ -74,7 +74,7 @@ namespace Jewelry.Web.ErrorHandle
         /// <returns>Task of internal error</returns>
         private static Task GetInternalServerErrorResult(HttpContext context)
         {
-            return context.Response.WriteAsync("<h2>Internal Server Error from the custom middleware.</h2>");
+            return context.Response.WriteAsync("<h2 style=\"color:red; text-align:center\">Internal Server Error from the custom middleware.</h2>");
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Jewelry.Web.ErrorHandle
         /// <returns>Task of not found exception</returns>
         private static Task GetNotFoundErrorResult(HttpContext context)
         {
-            return context.Response.WriteAsync("<h2>Not found error from the custom middleware.</h2>");
+            return context.Response.WriteAsync("<h2  style=\"color:red; text-align:center\">Not found error from the custom middleware.</h2>");
         }
     }
 }

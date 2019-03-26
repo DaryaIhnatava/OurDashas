@@ -30,6 +30,7 @@ namespace Jewelry.Web.ErrorHandle
                     if (contextFeature != null)
                     {
                         await context.Response.WriteAsync("<html lang=\"en\"><body>\r\n");
+                        await context.Response.WriteAsync("from extension\r\n");
                         await context.Response.WriteAsync("<h2>ERROR!</h2><br>\r\n");
                         await context.Response.WriteAsync("<h4>Status code: " + context.Response.StatusCode + "</h4><br>\r\n");
                         await context.Response.WriteAsync("<a href=\"/\">Home page</a><br>\r\n");
