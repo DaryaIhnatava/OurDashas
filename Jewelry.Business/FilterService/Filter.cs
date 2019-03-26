@@ -1,4 +1,7 @@
-﻿namespace Jewelry.Business.FilterService
+﻿// <copyright file="Filter.cs" company="CompanyName">
+//     Company copyright tag.
+// </copyright>
+namespace Jewelry.Business.FilterService
 {
     #region Usings
     using System;
@@ -7,6 +10,10 @@
     using System.Linq.Expressions;
     #endregion
 
+    /// <summary>
+    /// Filter class
+    /// </summary>
+    /// <typeparam name="T">Used jewelry</typeparam>
     public class Filter<T> 
     {
         /// <summary>
@@ -15,7 +22,7 @@
         /// <param name="list">The list.</param>
         /// <param name="propertyName">Name of the property.</param>
         /// <param name="values">The values.</param>
-        /// <returns></returns>
+        /// <returns>Filtered jewelries</returns>
         public static IEnumerable<T> FilterByExpression(IQueryable<T> list, string propertyName, params object[] values)
         {
             Expression<Func<T, bool>> expressionForFilter = GetExpression(propertyName, values);
@@ -27,7 +34,7 @@
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
         /// <param name="values">The values.</param>
-        /// <returns></returns>
+        /// <returns>Expression for filtering</returns>
         private static Expression<Func<T, bool>> GetExpression(string propertyName, params object[] values)
         {
             var parameter = Expression.Parameter(typeof(T), "item");
