@@ -74,17 +74,18 @@ namespace Jewelry.Business.JewelryService
         }
 
         /// <summary>
-        /// Converts the price currency.
+        /// 
         /// </summary>
-        /// <param name="jewelryPrice">The jewelry price</param>
-        /// <param name="currency">The currency.</param>
-        /// <exception cref="ArgumentException">No exchange rate was found</exception>
+        /// <param name="jewelryPrice"></param>
+        /// <param name="currency"></param>
+        /// <returns>New jewelry price</returns>
         public Price ConvertPriceCurrency(Price jewelryPrice, Currency currency)
         {
             if (jewelryPrice.Currency == currency)
             {
                 return jewelryPrice;
             }
+
             CurrencyService.CurrencyConverter.Convert(ref jewelryPrice, currency);
             return jewelryPrice;
         }
