@@ -52,7 +52,7 @@ namespace Jewelry.Business.CurrencyService
         /// </summary>
         /// <param name="price">existing price</param>
         /// <param name="newCurrency">expecting currency</param>
-        public static void Convert(Price price, Currency newCurrency)
+        public static void Convert(ref Price price, Currency newCurrency)
         {
             double? exchangeRate = GetExchangeRate(price.Currency, newCurrency);
             if (exchangeRate == null)
