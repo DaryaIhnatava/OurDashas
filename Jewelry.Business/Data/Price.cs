@@ -1,6 +1,10 @@
 ﻿// <copyright file="Price.cs" company="CompanyName">
 //     Company copyright tag.
 // </copyright>
+
+using System.ComponentModel.DataAnnotations;
+using Jewelry.Business.i18n;
+
 namespace Jewelry.Business.Data
 {
     #region Usings
@@ -25,7 +29,12 @@ namespace Jewelry.Business.Data
         /// <summary>
         /// Euro value
         /// </summary>
-        Euro
+        Euro,
+
+        /// <summary>
+        /// My currency
+        /// </summary>
+        MyCurrency
     }
 
     /// <summary>
@@ -47,11 +56,13 @@ namespace Jewelry.Business.Data
         /// <summary>
         /// Gets and sets value
         /// </summary>
+        [Display(Name = "Price", ResourceType = typeof(Resource))]
         public double Value { get; set; }
 
         /// <summary>
         /// Gets and sets currency
         /// </summary>
+        [Display(Name = "Currency", ResourceType = typeof(Resource))]
         public Currency Currency { get; set; }
 
         /// <summary>

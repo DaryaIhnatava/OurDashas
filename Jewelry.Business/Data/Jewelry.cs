@@ -1,6 +1,10 @@
 ﻿// <copyright file="Jewelry.cs" company="CompanyName">
 //     Company copyright tag.
 // </copyright>
+
+using System.ComponentModel.DataAnnotations;
+using Jewelry.Business.i18n;
+
 namespace Jewelry.Business.Data
 {
     /// <summary>
@@ -16,8 +20,9 @@ namespace Jewelry.Business.Data
         /// <param name="brand">brand of jewelry</param>
         /// <param name="price">price of jewelry</param>
         /// <param name="currency">currency of jewelry</param>
-        public Jewelry(string shape, string metal, string brand, double price, Currency currency)
+        public Jewelry(int Id,string shape, string metal, string brand, double price, Currency currency)
         {
+            this.Id = Id;
             this.Shape = shape;
             this.Metal = metal;
             this.Brand = brand;
@@ -25,23 +30,34 @@ namespace Jewelry.Business.Data
         }
 
         /// <summary>
+        /// Empty constructor
+        /// </summary>
+        public Jewelry()
+        {  
+        }
+        public int Id { get; set; }
+        /// <summary>
         /// Gets shape of jewelry
         /// </summary>
+        [Display(Name = "Shape", ResourceType = typeof(Resource))]
         public string Shape { get; private set; }
 
         /// <summary>
         /// Gets metal of jewelry
         /// </summary>
+        [Display(Name = "Metal", ResourceType = typeof(Resource))]
         public string Metal { get; private set; }
 
         /// <summary>
         /// Gets brand of jewelry
         /// </summary>
+        [Display(Name = "Brand", ResourceType = typeof(Resource))]
         public string Brand { get; private set; }
 
         /// <summary>
         /// Sets and gets price of jewelry
         /// </summary>
+        [Display(Name = "Price", ResourceType = typeof(Resource))]
         public Price Price { get; set; }
     }
 }
