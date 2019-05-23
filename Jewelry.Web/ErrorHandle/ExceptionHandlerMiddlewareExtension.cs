@@ -29,12 +29,44 @@ namespace Jewelry.Web.ErrorHandle
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                     if (contextFeature != null)
                     {
-                        await context.Response.WriteAsync("<html lang=\"en\"><body>\r\n");
-                        await context.Response.WriteAsync("from extension\r\n");
-                        await context.Response.WriteAsync("<h2>ERROR!</h2><br>\r\n");
-                        await context.Response.WriteAsync("<h4>Status code: " + context.Response.StatusCode + "</h4><br>\r\n");
-                        await context.Response.WriteAsync("<a href=\"/\">Home page</a><br>\r\n");
-                        await context.Response.WriteAsync("</body></html>\r\n");
+                        await context.Response.WriteAsync("<h2 style=\"color:red;text-align:center \">ERROR!</h2><br>\r\n");
+                        await context.Response.WriteAsync("<table>");
+                        await context.Response.WriteAsync("<table>" +
+                                                          "<tr>" +
+                                                          "<td style=\"color: aqua; font - weight: bold; font-size: 22px\"> HelpLink" +
+                                                          "</td>" +
+                                                          "<td style =\"color:black; font-size: 18px; width:100px\"> " + contextFeature.Error.HelpLink +
+                                                          "</ td ></ tr >" +
+                            "<tr>" +
+                            "<td style=\"color: aqua; font - weight: bold; font-size: 22px\"> Message" +
+                            "</td>" +
+                            "<td style =\"color:black; font-size: 18px\"> " + contextFeature.Error.Message +
+                            "</ td ></ tr >" +
+
+                           "<tr>" +
+                            "<td style=\"color: aqua; font - weight: bold; font-size: 22px\"> Source" +
+                            "</td>" +
+                            "<td style =\"color:black; font-size: 18px\"> " + contextFeature.Error.Source +
+                            "</ td ></ tr >"
+                            +
+                                                          "<tr>" +
+                                                          "<td style=\"color: aqua; font - weight: bold; font-size: 22px\"> Stack trace" +
+                                                          "</td>" +
+                                                          "<td style =\"color:black; font-size:018px\"> " + contextFeature.Error.StackTrace +
+                                                          "</ td ></ tr >"
+                                                          +
+                                                          "<tr>" +
+                                                          "<td style=\"color: aqua; font - weight: bold; font-size: 22px\"> Target Site" +
+                                                          "</td>" +
+                                                          "<td style =\"color:black; font-size: 18px\"> " + contextFeature.Error.TargetSite +
+                                                          "</ td ></ tr >"
+                                                          +
+                                                          "<tr>" +
+                                                          "<td style=\"color: aqua; font - weight: bold; font-size: 22px\"> Inner exception" +
+                                                          "</td>" +
+                                                          "<td style =\"color:black; font-size: 18px\"> " + contextFeature.Error.InnerException ?? "No inner exception" +
+                                                          "</ td ></ tr ></table >"
+                                                          );
                     }
                 });
             });
