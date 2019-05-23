@@ -1,5 +1,21 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.ApplicationInsights.AspNetCore.Extensions
+@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Http.Features
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+@using Microsoft.AspNetCore.Http.Extensions
+
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration configuration
+<!DOCTYPE html>
 <html ng-app="Jewelry.main">
+@{
+    var requestCulture = Context.Request.Cookies["lang"];
+    var culture = requestCulture?.ToString() == "ru-RU" ? "Русский" : "English";
+    var theme = Context.Request.Cookies["theme"] ?? configuration.GetSection("Theme").Value;
+    var m = Context.Request.GetUri().AbsoluteUri;
+}
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,7 +23,8 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+        @* <link rel="stylesheet" href="~/css/site.css" />*@
+
         <script src="~/js/angular.js"></script>
         <script src="~/js/angular-route.js"></script>
         <script src="~/js/angular-animate.js"></script>
@@ -21,42 +38,50 @@
         <script src="~/js/angular-resource.js"></script>
         <script src="~/js/angular-sanitize.js"></script>
         <script src="~/js/angular-touch.js"></script>
-        <script src="~/Scripts/modules/MainModule.js"></script>
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
+        @*<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+                  asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+                  asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+            <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />*@
+    </environment>@if (theme == "white")
+    {
+        <link href="~/css/white.css" rel="stylesheet" />
+    }
+    else
+    {
+        <link href="~/css/black.css" rel="stylesheet" />
+    }
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Jewelry.Web</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    @if (User.Identity.Name != null)
+                    {
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Hello, @User.Identity.Name</a></li>
+                        <li><a asp-area="" asp-controller="User" asp-action="Logout">Logout</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-area="" asp-controller="User" asp-action="Register">Registration</a></li>
+                        <li><a asp-area="" asp-controller="User" asp-action="Login">Login</a></li>
+                    }
+
+                    <li style="font-weight:700">
+                        <a href="/Home/ChangeLanguage?url=@m">  @culture</a>
+                    </li>
                 </ul>
+
             </div>
         </div>
     </nav>
-    <div class="container body-content">
+    <div class="col-lg-8 col-lg-offset-2">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2019 - Jewelry.Web</p>
-        </footer>
     </div>
 
     <environment include="Development">
@@ -80,7 +105,10 @@
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 
-    @RenderSection("Scripts", required: false)
     <script src="~/js/modules/MainModule.js"></script>
+    <script src="~/js/jquery-1.10.2.js"></script>
+    <script src="~/js/jquery.validate.js"></script>
+<script src="~/js/ClickFunction.js"></script>
+    <script src="~/js/jquery.unobtrusive-ajax.js"></script>
 </body>
 </html>
