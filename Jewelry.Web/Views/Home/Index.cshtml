@@ -1,47 +1,60 @@
-﻿@{
+﻿@model Dictionary<string, string>
+@using Jewelry.Web.i18n
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration configuration
+@{
     ViewData["Title"] = "Home Page";
 }
-
-<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-        <li data-target="#myCarousel" data-slide-to="3"></li>
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="~/images/banner1.svg" alt="ASP.NET" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner2.svg" alt="Visual Studio" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner3.svg" alt="Package Management" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner4.svg" alt="Microsoft Azure" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-            </div>
-        </div>
+<div class="row">
+    <label>Введите свое имя </label>
+    <input type="text" ng-model="name" placeholder="Имя" />
+    <h1>@Resource.Welcome, {{name}}</h1>
+    <div style="padding-top:50px;">
+        <form action="/Home/ChangeLanguage">
+            Язык приложения:
+            <select name="lang">
+                <option value="ru-RU">Русский</option>
+                <option value="en-US">English</option>
+            </select>
+            <input type="submit" value="Save" />
+        </form>
     </div>
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
+    <div style="padding-top:50px;">
+        <form action="/Home/ChangeTheme">
+            Тема приложения:
+            <select name="theme">
+                <option value="white">@Resource.White</option>
+                <option value="black">@Resource.Black</option>
+            </select>
+            <input type="submit" value="Save" />
+        </form>
+    </div>
 </div>
-<label>Введите свое имя </label>
-<input type="text" ng-model="name" placeholder="Имя" />
-<h1>Добро пожаловать {{name}}</h1>
-<h2 style="color:red">@ViewBag.Message</h2>
+ @{
+    var now = DateTime.Now.ToUniversalTime();
+    var timeZone = Context.Request.Cookies["timeZone"] ?? configuration.GetSection("TimeZoneKey").Value;
+}
+<div class="row" style="padding-top:50px;">
+    Часовой пояс приложения:
+    <form action="/Home/ChangeTimeZone">
+        <select name="timeZone">
+            @foreach (var zone in Model)
+            {
+                if (zone.Key == timeZone)
+                {
+                    <option selected value="@zone.Key">@zone.Value</option>
+                }
+                else
+                {
+                    <option value="@zone.Key">@zone.Value</option>
+                }
+            }
+        </select>
+        <input type="submit" value="Save" />
+    </form>
+</div>
+<div class="row" style="padding-top: 100px; font-size: larger; font-weight: bold">
+
+    @TimeZoneInfo.ConvertTimeFromUtc(now, TimeZoneInfo.FindSystemTimeZoneById(timeZone))
+</div>
 <script src="~/js/angular.js"></script>
