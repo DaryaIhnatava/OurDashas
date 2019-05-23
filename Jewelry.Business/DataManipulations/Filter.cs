@@ -14,7 +14,7 @@ namespace Jewelry.Business.FilterService
     /// Filter class
     /// </summary>
     /// <typeparam name="T">Used jewelry</typeparam>
-    public class Filter<T> 
+    public class Filter<T>
     {
         /// <summary>
         /// Filters the by expression.
@@ -26,6 +26,11 @@ namespace Jewelry.Business.FilterService
         public static IEnumerable<T> FilterByExpression(IQueryable<T> list, string propertyName, params object[] values)
         {
             Expression<Func<T, bool>> expressionForFilter = GetExpression(propertyName, values);
+            if (expressionForFilter == null)
+            {
+                return list;
+            }
+
             return list.Where(expressionForFilter);
         }
 
@@ -37,6 +42,11 @@ namespace Jewelry.Business.FilterService
         /// <returns>Expression for filtering</returns>
         private static Expression<Func<T, bool>> GetExpression(string propertyName, params object[] values)
         {
+            if (propertyName == "Price")
+            {
+                return null;
+            }
+
             var parameter = Expression.Parameter(typeof(T), "item");
             var property = Expression.PropertyOrField(parameter, propertyName);
             var body = Expression.Equal(property, Expression.Constant(values[0]));
