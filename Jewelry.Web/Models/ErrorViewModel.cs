@@ -3,25 +3,41 @@
 // </copyright>
 namespace Jewelry.Web.Models
 {
+    using System;
+
     /// <summary>
     /// ErrorViewModel class
     /// </summary>
-    public class ErrorViewModel
+    public class ErrorViewModel 
     {
         /// <summary>
-        /// Gets or sets the request identifier.
+        /// Gets statusCode
         /// </summary>
-        /// <value>
-        /// The request identifier.
-        /// </value>
-        public string RequestId { get; set; }
-        
+        public int StatusCode { get; set; }
+
         /// <summary>
-        /// Gets a value indicating whether [show request identifier].
+        /// Gets InnerException
         /// </summary>
-        /// <value>
-        ///   <c>true</c> if [show request identifier]; otherwise, <c>false</c>.
-        /// </value>
-        public bool ShowRequestId => !string.IsNullOrEmpty(this.RequestId);
+        public Exception InnerException { get; set; }
+
+        /// <summary>
+        /// Gets message
+        /// </summary>
+        public string Message { get; set; }
+
+        /// <summary>
+        /// Gets shape of jewelry
+        /// </summary>
+        public string HelpLink { get; set; }
+
+        /// <summary>
+        /// Gets source
+        /// </summary>
+        public string Source { get; set; }
+
+        /// <summary>
+        /// Gets stackTrace
+        /// </summary>
+        public string StackTrace { get; set; }
     }
 }
