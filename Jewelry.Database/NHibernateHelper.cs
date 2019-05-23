@@ -9,6 +9,7 @@ namespace Jewelry.Database
     using NHibernate.Cfg;
     using NHibernate.Dialect;
     using NHibernate.Driver;
+    using NHibernate.Mapping.Attributes;
     #endregion
 
     /// <summary>
@@ -23,16 +24,29 @@ namespace Jewelry.Database
         public static NHibernate.ISession OpenSession()
         {
             var cfg = new Configuration();
-            cfg.DataBaseIntegration(x => 
+            cfg.DataBaseIntegration(x =>
             {
-                x.ConnectionString = @"Data Source=LAPTOP-868QL38T\SQLEXPRESS;Initial Catalog=JewelryStore;User ID=JUser;Password=qwerty123;"; 
+                x.ConnectionString = @"Data Source=LAPTOP-868QL38T\SQLEXPRESS;Initial Catalog=Jewelry;User ID=JUser;Password=qwerty123;";
                 x.Driver<SqlClientDriver>();
                 x.Dialect<MsSql2008Dialect>();
                 x.LogSqlInConsole = true;
             });
-            cfg.AddAssembly(Assembly.GetExecutingAssembly());
+            cfg.Configure();
+            HbmSerializer.Default.Validate = true;
+            var stream = HbmSerializer.Default.Serialize(Assembly.GetExecutingAssembly());
+            cfg.AddInputStream(stream);
+            //cfg.AddAssembly(Assembly.GetExecutingAssembly());
             ISessionFactory sessionFactory = cfg.BuildSessionFactory();
             return sessionFactory.OpenSession();
+
+            //Configuration configuration = new Configuration().Configure();
+            //var configurePath = @"hibernate.cfg.xml";
+            //configuration.Configure(configurePath);
+            //configuration.AddAssembly(Assembly.GetExecutingAssembly());
+            //ISessionFactory sessionFactory = configuration.BuildSessionFactory();
+            //return sessionFactory.OpenSession();
+
+
         }
     }
 }
