@@ -1,17 +1,26 @@
 ﻿// <copyright file="Startup.cs" company="CompanyName">
 //     Company copyright tag.
 // </copyright>
+
+using System.Globalization;
+using System.Threading;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.Extensions.Options;
+
 namespace Jewelry.Web
 {
+    using System.Text;
+    using Jewelry.Business.LoginService.Authentication;
     #region Usings
-    using System.IO;
     using Jewelry.Dependencies;
     using Jewelry.Web.ErrorHandle;
-    using Jewelry.Web.Logger;
+    using Jewelry.Web.Middlewares;
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Caching.Memory;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -64,7 +73,39 @@ namespace Jewelry.Web
             var connection = this.configuration.GetConnectionString("DefaultConnection");
             services.AddJewelryBusinessRegistries();
             services.AddJewelryDatabaseRegistries();
-            services.AddMvc();
+            /*services.AddLocalization(options => options.ResourcesPath = "i18n");*/
+            //services.AddSingleton<IMemoryCache>();
+            services.AddMemoryCache();
+            //services.AddMvc()
+            //    .AddViewLocalization(
+            //        Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.SubFolder,
+            //        opts => { opts.ResourcesPath = "Resources"; }
+            //    )
+            services.AddMvc()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix,
+                    opts => { opts.ResourcesPath = "i18n"; })
+                .AddDataAnnotationsLocalization();
+
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => //CookieAuthenticationOptions
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/User/Login");
+                });
+
+            /*services.Configure<RequestLocalizationOptions>(
+                opts =>
+                {
+                    var supportedCultures = new[]
+                    {
+                        new CultureInfo("en-US"),
+                        new CultureInfo("ru-RU")
+                    };
+
+                    opts.DefaultRequestCulture = new RequestCulture(new CultureInfo(configuration.GetSection("Culture").Value.ToString()));
+                    opts.SupportedCultures = supportedCultures;
+                    opts.SupportedUICultures = supportedCultures;
+                });*/
         }
 
         /// <summary>
@@ -75,29 +116,44 @@ namespace Jewelry.Web
         /// <param name="loggerFactory">The logger factory.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            System.Text.Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             var con = this.configuration.GetConnectionString("DefaultConnection");
             using (this.logger.BeginScope("Some really useful information"))
             {
                 this.logger.LogWarning("Oh no.");
             }
-            
+
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
+                app.ConfigureExceptionHandler();
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseStatusCodePagesWithReExecute("/Error/StatusCode");
+                app.UseMvcWithDefaultRoute();
             }
+            app.UseMiddleware<ThemeMiddleware>();
 
+            app.MapWhen(
+                context => context.Request.Path.ToString().Contains("Report"),
+                HandleId);
+                
+            app.UseAuthentication();
             app.UseStaticFiles();
+            app.UseMiddleware<LocalizationMiddleware>();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+        private static void HandleId(IApplicationBuilder app)
+        {
+            app.UseReportMiddleware();
         }
     }
 }
