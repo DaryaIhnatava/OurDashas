@@ -5,6 +5,7 @@ namespace Jewelry.Database.JewelryRepository
 {
     #region Usings
     using System.Collections.Generic;
+
     using Jewelry.Database.Data;
     #endregion
 
