@@ -1,0 +1,73 @@
+﻿@model Jewelry.Web.Models.CategoryWithPropertiesViewModel
+
+@{int i = 0; int j = 0; }
+<form method="post" action="/Report" name="categories">
+    <td style="position:absolute; margin-top:50px; margin-left:50px;">
+        <select name="propertyName" class="form-control">
+            @foreach (var item in Model.Properties)
+            {
+                if (item.Key == "Id")
+                {
+                    continue;
+                }
+                if (item.Value == true)
+                {
+                    <option selected>@item.Key</option>
+                }
+                <option>@item.Key</option>
+            }
+        </select>
+    </td>
+    <td style="position:absolute; margin-top:130px; margin-left:50px;">
+        <dl>
+            @foreach (var category in Model.Categories.Where(q => q.PropertyName != "Price" && q.PropertyName != "Цена"))
+            {
+                <dd style="font-size:larger; font-weight:bold">
+                    @category.PropertyName
+                    <!-- @Html.HiddenFor(x => category.PropertyName)-->
+                    <input type="hidden" name="categories[@i].PropertyName" value="@category.PropertyName" />
+                </dd>
+                j = 0;
+                foreach (var categoryprop in category.PropertyValues)
+                {
+
+
+                    <dt style="font-weight:400">
+                        <input type="hidden" name="categories[@i].PropertyValues[@j].propertyValue" value="@categoryprop.PropertyValue" />
+                        @{ var checkedP = categoryprop.Checked == true ? "checked" : "";}
+                        <input style="margin-right:15px" type="checkbox" name="categories[@i].PropertyValues[@j].Checked" class="category" id="@category.PropertyName=@categoryprop.PropertyValue" value="true" @checkedP />@categoryprop.PropertyValue
+                    </dt>
+
+                    j++;
+
+                }
+                i++;
+
+            }
+            @if (Model.Categories.Where(q => q.PropertyName == "Price" || q.PropertyName == "Цена").FirstOrDefault() != null)
+            {
+                <dd style="font-size:larger; font-weight:bold;">
+                    Price
+                    <!-- @Html.HiddenFor(x => Model.Categories.Where(q => q.PropertyName == "Price" || q.PropertyName == "Цена").FirstOrDefault().PropertyName)-->
+                    <input type="hidden" name="categories[@i].PropertyName" value="Price" />
+                </dd>{
+                    j = 0;
+                }
+                <dt style="font-weight:400 ; margin-top:20px; margin-left:-100px">
+                    <input type="hidden" name="categories[@i].PropertyValues[0].Checked" value="true" />
+                    <input type="hidden" name="categories[@i].PropertyValues[1].Checked" value="true" />
+
+                    @Model.Categories.Where(q => q.PropertyName == "Price" || q.PropertyName == "Цена").First().PropertyValues.Max(q => q.PropertyValue) <
+                    <input type="text" name="categories[@i].PropertyValues[0].propertyValue" /> -
+                    <input type="text" name="categories[@i].PropertyValues[1].propertyValue" />
+                    < @Model.Categories.Where(q => q.PropertyName == "Price" || q.PropertyName == "Цена").First().PropertyValues.Min(q => q.PropertyValue)
+                </dt>}
+        </dl>
+        <input type="submit" value="Filter" style="margin-bottom:100px" id="filter" class="form-control" />
+        <div style="padding-top: 50px">
+            <p>Take: <input type="text" name="take" class="form-control"  id="take"/>     Skip:<input class="form-control" type="text" name="skip" id="skip" /></p>
+            <input type="submit" value="Save as XML file" style="margin-bottom:100px" id="XML" class="form-control" />
+            <input type="submit" value="Save as Excel file" style="margin-bottom:100px" id="XSLX" class="form-control" />
+        </div>
+    </td>
+</form>
