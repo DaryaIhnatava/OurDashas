@@ -1,11 +1,15 @@
 ﻿// <copyright file="DatabaseDependencies.cs" company="CompanyName">
 //     Company copyright tag.
 // </copyright>
+
+using Jewelry.Database.RepositoryModel;
+
 namespace Jewelry.Dependencies
 {
     #region Usings
     using Database.JewelryRepository;
     using Database.ShapeRepository;
+
     using Microsoft.Extensions.DependencyInjection;
     #endregion
 
@@ -22,6 +26,7 @@ namespace Jewelry.Dependencies
         {
             services.AddTransient<IShapeRepository, ShapeRepository>();
             services.AddTransient<IJewelryRepository, JewelryRepository>();
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
         }
     }
 }

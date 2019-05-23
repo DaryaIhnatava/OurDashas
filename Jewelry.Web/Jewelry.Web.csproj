@@ -5,6 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\jquery-1.10.2.intellisense.js" />
+    <Content Remove="wwwroot\js\jquery-1.10.2.js" />
+    <Content Remove="wwwroot\js\jquery-1.10.2.min.js" />
+    <Content Remove="wwwroot\js\jquery-1.10.2.min.map" />
+    <Content Remove="wwwroot\js\jquery.unobtrusive-ajax.js" />
+    <Content Remove="wwwroot\js\jquery.unobtrusive-ajax.min.js" />
+    <Content Remove="wwwroot\js\jquery.validate.js" />
+    <Content Remove="wwwroot\js\jquery.validate.min.js" />
+    <Content Remove="wwwroot\js\jquery.validate.unobtrusive.js" />
+    <Content Remove="wwwroot\js\jquery.validate.unobtrusive.min.js" />
     <Content Remove="wwwroot\js\modules\MainModule.js" />
   </ItemGroup>
 
@@ -13,16 +23,27 @@
     <None Remove="hibernate.cfg.xml" />
     <None Remove="logger.txt" />
     <None Remove="loggerMine.txt" />
+    <None Remove="Views\Error\ForDeveloper.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Views\Error\ForDeveloper.html" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AngularJS.Core" Version="1.7.5" />
     <PackageReference Include="AngularJS.Route" Version="1.7.5" />
+    <PackageReference Include="ClosedXML" Version="0.94.2" />
+    <PackageReference Include="EPPlus" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="2.1.1" />
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +57,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\js\ClickFunction.js" />
+    <None Include="wwwroot\js\jquery-1.10.2.intellisense.js" />
+    <None Include="wwwroot\js\jquery-1.10.2.js" />
+    <None Include="wwwroot\js\jquery-1.10.2.min.js" />
+    <None Include="wwwroot\js\jquery-1.10.2.min.map" />
+    <None Include="wwwroot\js\jquery.unobtrusive-ajax.js" />
+    <None Include="wwwroot\js\jquery.unobtrusive-ajax.min.js" />
+    <None Include="wwwroot\js\jquery.validate.js" />
+    <None Include="wwwroot\js\jquery.validate.min.js" />
+    <None Include="wwwroot\js\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\js\jquery.validate.unobtrusive.min.js" />
     <None Include="wwwroot\js\modules\MainModule.js" />
   </ItemGroup>
 
@@ -45,9 +77,40 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="i18n\Controllers.JewelryController.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Controllers.JewelryController.resx</DependentUpon>
+    </Compile>
+    <Compile Update="i18n\Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="Views\Jewelry\Index.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="i18n\Controllers.JewelryController.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Controllers.JewelryController.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="i18n\Controllers.JewelryController.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="i18n\Resource.resx">
+      <SubType>Designer</SubType>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="i18n\Resource.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
