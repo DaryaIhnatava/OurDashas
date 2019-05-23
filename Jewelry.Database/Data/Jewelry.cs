@@ -16,14 +16,15 @@ namespace Jewelry.Database.Data
         /// <param name="brand">The brand.</param>
         /// <param name="price">The price.</param>
         /// <param name="currency">The currency.</param>
-        public Jewelry(string shape, string metal, string brand, double price, Currency currency)
+        public Jewelry(int Id, string shape, string metal, string brand, double price, Currency currency)
         {
+            this.Id = Id;
             this.Shape = shape;
             this.Metal = metal;
             this.Brand = brand;
             this.Price = new Price(price, currency);
         }
-
+        public int Id { get; }
         /// <summary>
         /// Gets the shape.
         /// </summary>
