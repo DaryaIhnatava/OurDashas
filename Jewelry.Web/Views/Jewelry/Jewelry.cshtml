@@ -1,0 +1,23 @@
+﻿@model Jewelry.Business.Data.Jewelry
+<div class="container" >
+    <div class="row" >
+        <div class="col-lg-1" style="padding-left: 20px">
+            @Html.DisplayFor(model => model.Id)
+        </div>
+        <div class="col-lg-1" style="padding-left: 20px">
+            @Html.DisplayFor(model => model.Shape)
+        </div>
+        <div class="col-lg-1" style="padding-left: 20px">
+            @Html.DisplayFor(model => model.Metal)
+        </div>
+        <div class="col-lg-1" style="padding-left: 20px">
+            @Html.DisplayFor(model => model.Brand)
+        </div>
+        <div class="col-lg-1" style="padding-left: 20px">
+            @Html.DisplayFor(model => model.Price.Value)
+        </div>
+        <div class="col-lg-1" style="padding-left: 20px">
+            @Html.DisplayFor(model => model.Price.Currency)
+        </div>
+    </div>
+</div>

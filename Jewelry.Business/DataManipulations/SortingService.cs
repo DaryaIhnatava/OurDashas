@@ -32,8 +32,8 @@ namespace Jewelry.Business.DataManipulations
             {
                 return jewelries.OrderByPropertyName(propertyName);
             }
-
-            return jewelries.OrderBy(x => x.Price.Value);
+            jewelries = jewelries.OrderByDescending(x => x.Price.Value);
+            return jewelries;
         }
     }
 }

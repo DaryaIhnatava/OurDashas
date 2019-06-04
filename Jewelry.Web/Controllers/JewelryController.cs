@@ -6,6 +6,7 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace Jewelry.Web.Controllers
 {
@@ -53,6 +54,8 @@ namespace Jewelry.Web.Controllers
         /// </summary>
         private IEnumerable<Jewelry> jewelries;
 
+        private readonly ILogger<JewelryController> logger;
+
         private readonly IStringLocalizer<JewelryController> _localizer;
 
         /// <summary>
@@ -61,12 +64,13 @@ namespace Jewelry.Web.Controllers
         /// <param name="jewelryService">jewelry service</param>
         /// <param name="categoryService">category service</param>
         /// <param name="filter">filter</param>
-        public JewelryController(IJewelryService jewelryService, ICategoryService categoryService, IFilterService filter, IStringLocalizer<JewelryController> localizer)
+        public JewelryController(IJewelryService jewelryService, ICategoryService categoryService, IFilterService filter, IStringLocalizer<JewelryController> localizer, ILogger<JewelryController> logger)
         {
             this.jewelryService = jewelryService;
             this.categoryService = categoryService;
             this.filter = filter;
             this._localizer = localizer;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -88,6 +92,8 @@ namespace Jewelry.Web.Controllers
         /// <returns>View with model</returns>
         public IActionResult Index()
         {
+            logger.LogError("This is Error from JewelryController");
+            logger.LogWarning("This is warning from JewelryController");
             this.jewelries = this.jewelryService.GetJewelries();
             var categories = this.GetCategories();
             JewelriesViewModel viewModel = new JewelriesViewModel()

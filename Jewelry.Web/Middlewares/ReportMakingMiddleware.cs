@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using ClosedXML.Excel;
 using Jewelry.Business.Data;
+using Jewelry.Business.DataManipulations;
 using Jewelry.Business.FilterService;
 using Jewelry.Business.JewelryService;
 using Microsoft.AspNetCore.Builder;
@@ -37,18 +38,33 @@ namespace Jewelry.Web.Middlewares
             {
                 categories = GetParametersFromGetMethod(context);
             }
-            else
+            else if (context.Request.Method == "POST")
             {
                 categories = GetParametersFromPostMethod(context);
             }
+            else
+            {
+                return _next.Invoke(context);
+            }
             
             var fileredJewelries = filter.GetFilteredJewelries(categories, jewelries);
+            var PriceFrom = categories.FirstOrDefault(x => x.PropertyName == "PriceFrom");
+            var PriceTo = categories.FirstOrDefault(x => x.PropertyName == "PriceTo");
+            if (PriceTo != null)
+            {
+                fileredJewelries =
+                    fileredJewelries.Where(x => x.Price.Value <= int.Parse(PriceTo.PropertyValues[0].PropertyValue));
+            }
+            if (PriceFrom != null)
+            {
+                fileredJewelries =
+                    fileredJewelries.Where(x => x.Price.Value >= int.Parse(PriceFrom.PropertyValues[0].PropertyValue));
+            }
 
-
-            var t = context.Request.Headers.FirstOrDefault(x => x.Key == "skip");
-            int? skip = string.IsNullOrWhiteSpace(t.Key) ? (int?)null : int.Parse(t.Value[0]);
-            t = context.Request.Headers.FirstOrDefault(x => x.Key == "take");
-            int? take = string.IsNullOrWhiteSpace(t.Key) ? (int?)null : int.Parse(t.Value[0]);
+            var header = context.Request.Headers.FirstOrDefault(x => x.Key == "skip");
+            int? skip = string.IsNullOrWhiteSpace(header.Key) ? (int?)null : int.Parse(header.Value[0]);
+            header = context.Request.Headers.FirstOrDefault(x => x.Key == "take");
+            int? take = string.IsNullOrWhiteSpace(header.Key) ? (int?)null : int.Parse(header.Value[0]);
             if (skip != null)
             {
                 fileredJewelries = fileredJewelries.Skip((int)skip);
@@ -57,18 +73,23 @@ namespace Jewelry.Web.Middlewares
             {
                 fileredJewelries = fileredJewelries.Take((int)take);
             }
-
+            header = context.Request.Headers.FirstOrDefault(x => x.Key == "sort");
+            string sort = string.IsNullOrWhiteSpace(header.Key) ? null : header.Value[0];
+            if (sort != null)
+            {
+                fileredJewelries = SortingService.SortByPropertyName(fileredJewelries, sort);
+            }
 
 
             Stream fs = null;
             var fileType = context.Request.Headers["fileType"];
             if (fileType=="xml")
             {
-                fs = GetXmlResponse(context, jewelries);
+                fs = GetXmlResponse(context, fileredJewelries);
             }
             else
             {
-                fs = GetXlsxResponse(context, jewelries);
+                fs = GetXlsxResponse(context, fileredJewelries);
             }
             fileType = fileType == "xml" ? "application/xml" : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             var m = new FileStreamResult(fs, fileType);
@@ -80,14 +101,8 @@ namespace Jewelry.Web.Middlewares
         private List<Category> GetParametersFromGetMethod(HttpContext context)
         {
             List<Category> categories = new List<Category>();
-            var parameters = new List<string>();
-            foreach (var item in typeof(Business.Data.Jewelry).GetProperties())
-            {
-                if (context.Request.Query.Any(x => x.Key.Contains(item.Name) || x.Key.Contains("PriceFrom") || x.Key.Contains("PriceTo")))
-                {
-                    parameters.Add(item.Name);
-                }
-            }
+            List<string> parameters = context.Request.Query.Select(x => x.Key.ToString()).ToList();
+            
             foreach (var item in parameters)
             {
                 var parameter = context.Request.Query.FirstOrDefault(x => x.Key == item);

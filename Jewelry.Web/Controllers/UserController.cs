@@ -9,6 +9,7 @@ using Jewelry.Business.LoginService;
 using Jewelry.Business.LoginService.Authentication;
 using Jewelry.Business.LoginService.Models;
 using Jewelry.Database.Data;
+using Jewelry.Web.Infrastucture;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -22,12 +23,16 @@ namespace Jewelry.Web.Controllers
         private IService<User> userService;
         private IService<UserSettings> userSettings;
         private readonly IConfiguration configuration;
+        private readonly bool IsEnableLogInCounter; 
+        private readonly bool IsEnableLogOffCounter;
 
         public UserController(IService<User> userService, IService<UserSettings> userSettings, IConfiguration configuration)
         {
             this.userService = userService;
             this.userSettings = userSettings;
             this.configuration = configuration;
+            this.IsEnableLogOffCounter = this.configuration.GetValue<bool>("LogoffCounter");
+            this.IsEnableLogInCounter= this.configuration.GetValue<bool>("LoginCounter");
         }
         [HttpGet]
         public IActionResult Login()
@@ -47,6 +52,10 @@ namespace Jewelry.Web.Controllers
                     UserSettings userSettingsModel = userSettings.ListByProperty("UserId", user.Id).FirstOrDefault();
                     ChangeTheme(userSettingsModel.Theme);
                     ChangeTime(userSettingsModel.TimeZone);
+                    if (IsEnableLogInCounter)
+                    {
+                        Counters.IncrementLogIn();
+                    }
                     return Redirect($"/Home/ChangeLanguage?lang={userSettingsModel.Language.Trim()}");
                 }
                 ModelState.AddModelError("", "Некорректные логин и(или) пароль");
@@ -112,6 +121,10 @@ namespace Jewelry.Web.Controllers
             HttpContext.Response.Cookies.Delete("timeZone");
             HttpContext.Response.Cookies.Delete("lang");
             HttpContext.Response.Cookies.Delete("theme");
+            if (IsEnableLogOffCounter)
+            {
+                Counters.IncrementLogOff();
+            }
             return RedirectToAction("Login", "User");
         }
     }

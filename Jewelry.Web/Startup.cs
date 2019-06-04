@@ -3,7 +3,9 @@
 // </copyright>
 
 using System.Globalization;
+using System.Linq;
 using System.Threading;
+using Jewelry.Web.Infrastucture;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -35,7 +37,7 @@ namespace Jewelry.Web
         /// <summary>
         /// The logger
         /// </summary>
-        private readonly ILogger logger;
+        private ILogger logger;
 
         /// <summary>
         /// The configuration
@@ -73,14 +75,9 @@ namespace Jewelry.Web
             var connection = this.configuration.GetConnectionString("DefaultConnection");
             services.AddJewelryBusinessRegistries();
             services.AddJewelryDatabaseRegistries();
-            /*services.AddLocalization(options => options.ResourcesPath = "i18n");*/
-            //services.AddSingleton<IMemoryCache>();
+
             services.AddMemoryCache();
-            //services.AddMvc()
-            //    .AddViewLocalization(
-            //        Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.SubFolder,
-            //        opts => { opts.ResourcesPath = "Resources"; }
-            //    )
+
             services.AddMvc()
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix,
                     opts => { opts.ResourcesPath = "i18n"; })
@@ -92,20 +89,31 @@ namespace Jewelry.Web
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/User/Login");
                 });
+            
+            #region localizationMarks
 
             /*services.Configure<RequestLocalizationOptions>(
-                opts =>
-                {
-                    var supportedCultures = new[]
-                    {
-                        new CultureInfo("en-US"),
-                        new CultureInfo("ru-RU")
-                    };
+               opts =>
+               {
+                   var supportedCultures = new[]
+                   {
+                       new CultureInfo("en-US"),
+                       new CultureInfo("ru-RU")
+                   };
 
-                    opts.DefaultRequestCulture = new RequestCulture(new CultureInfo(configuration.GetSection("Culture").Value.ToString()));
-                    opts.SupportedCultures = supportedCultures;
-                    opts.SupportedUICultures = supportedCultures;
-                });*/
+                   opts.DefaultRequestCulture = new RequestCulture(new CultureInfo(configuration.GetSection("Culture").Value.ToString()));
+                   opts.SupportedCultures = supportedCultures;
+                   opts.SupportedUICultures = supportedCultures;
+               });*/
+            //services.AddMvc()
+            //    .AddViewLocalization(
+            //        Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.SubFolder,
+            //        opts => { opts.ResourcesPath = "Resources"; }
+            //    )
+            /*services.AddLocalization(options => options.ResourcesPath = "i18n");*/
+            //services.AddSingleton<IMemoryCache>();
+            #endregion
+
         }
 
         /// <summary>
@@ -114,14 +122,34 @@ namespace Jewelry.Web
         /// <param name="app">The application.</param>
         /// <param name="env">The env.</param>
         /// <param name="loggerFactory">The logger factory.</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory factory)
         {
             System.Text.Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             var con = this.configuration.GetConnectionString("DefaultConnection");
-            using (this.logger.BeginScope("Some really useful information"))
+
+            #region CountersTurningOn/Off
+
+            /*var IsEnableLogInCounter = this.configuration.GetValue<bool>("LoginCounter");
+            var IsEnableLogOffCounter = this.configuration.GetValue<bool>("LogoffCounter");
+            Counters.CreateCategory(IsEnableLogInCounter, IsEnableLogOffCounter);*/
+
+            #endregion
+
+            #region WorkingLogger
+
+            if (configuration.GetValue<bool>("Logging:Debug:IsEnable"))
             {
-                this.logger.LogWarning("Oh no.");
+                factory.AddDebug(configuration.GetValue<LogLevel>("Logging:Debug:LogLevel:Default"));
+                logger = factory.CreateLogger<Startup>();
             }
+
+            this.logger.LogWarning("Oh no.");
+            logger.LogError("ERROR!!!!");
+            
+
+            #endregion
+            
+
 
             if (env.IsDevelopment())
             {
@@ -139,7 +167,7 @@ namespace Jewelry.Web
             app.MapWhen(
                 context => context.Request.Path.ToString().Contains("Report"),
                 HandleId);
-                
+
             app.UseAuthentication();
             app.UseStaticFiles();
             app.UseMiddleware<LocalizationMiddleware>();

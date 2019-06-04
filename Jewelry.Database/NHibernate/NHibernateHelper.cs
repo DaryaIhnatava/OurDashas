@@ -14,7 +14,7 @@
             var cfg = new Configuration();
             cfg.DataBaseIntegration(x => 
             {
-                x.ConnectionString = @"Data Source=EPBYMOGW0027\SQLEXPRESS;Initial Catalog=Jewelry;User ID=JUser;Password=Qwerty123;";
+                x.ConnectionString = @"Data Source=EPBYMOGW0027\SQLEXPRESS;Initial Catalog=Jewelry;User ID=JUser;Password=Query_123;";
                 //x.ConnectionString = @"Data Source=LAPTOP-868QL38T\SQLEXPRESS;Initial Catalog=training;User ID=JUser;Password=qwerty123;"; 
                 x.Driver<SqlClientDriver>();
                 x.Dialect<MsSql2008Dialect>();

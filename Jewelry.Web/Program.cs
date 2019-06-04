@@ -34,7 +34,10 @@ namespace Jewelry.Web
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-            .ConfigureLogging(logging => logging.SetMinimumLevel(LogLevel.Error))
+                .ConfigureLogging((hostingContext, logging) =>
+                {
+                    logging.ClearProviders();
+                })
             .Build();
     }
 }

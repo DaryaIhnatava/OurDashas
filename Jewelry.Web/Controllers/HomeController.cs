@@ -99,7 +99,7 @@ namespace Jewelry.Web.Controllers
             else
             {
                 User user = userService.ListByProperty("Email", HttpContext.User.Identity.Name).FirstOrDefault();
-                if (User != null)
+                if (user != null)
                 {
                     UserSettings userSettingsModel = userSettings.ListByProperty("UserId", user.Id).FirstOrDefault();
                     userSettingsModel.Language = lang;

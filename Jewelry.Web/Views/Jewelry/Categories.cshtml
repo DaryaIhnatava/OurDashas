@@ -1,9 +1,9 @@
 ﻿@model Jewelry.Web.Models.CategoryWithPropertiesViewModel
 
 @{int i = 0; int j = 0; }
-<form method="post" action="/Report" name="categories">
+<form method="post" action="/Jewelry/Index" name="categories">
     <td style="position:absolute; margin-top:50px; margin-left:50px;">
-        <select name="propertyName" class="form-control">
+        <select name="propertyName" class="form-control" id="sort">
             @foreach (var item in Model.Properties)
             {
                 if (item.Key == "Id")
@@ -63,7 +63,7 @@
                     < @Model.Categories.Where(q => q.PropertyName == "Price" || q.PropertyName == "Цена").First().PropertyValues.Min(q => q.PropertyValue)
                 </dt>}
         </dl>
-        <input type="submit" value="Filter" style="margin-bottom:100px" id="filter" class="form-control" />
+        <input type="submit" value="Filter" style="margin-bottom:100px" class="form-control" />
         <div style="padding-top: 50px">
             <p>Take: <input type="text" name="take" class="form-control"  id="take"/>     Skip:<input class="form-control" type="text" name="skip" id="skip" /></p>
             <input type="submit" value="Save as XML file" style="margin-bottom:100px" id="XML" class="form-control" />

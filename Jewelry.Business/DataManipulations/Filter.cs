@@ -42,7 +42,7 @@ namespace Jewelry.Business.FilterService
         /// <returns>Expression for filtering</returns>
         private static Expression<Func<T, bool>> GetExpression(string propertyName, params object[] values)
         {
-            if (propertyName == "Price")
+            if (propertyName == "Price" || propertyName == "PriceFrom" || propertyName == "PriceTo")
             {
                 return null;
             }

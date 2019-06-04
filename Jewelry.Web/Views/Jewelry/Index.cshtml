@@ -7,29 +7,9 @@
     <table>
         <tr>
                @Html.Partial("Categories", Model.categoryWithPropertiesViewModel)   
-                <td  style="position:absolute; margin-top:250px; margin-left:450px;" >
-                    <table style="margin-top:-200px" >
-                        <tr>
-                            <td style="padding-left:40px; font-weight:bold; font-size:larger">
-                                @Html.DisplayNameFor(x =>x.Jewelries.FirstOrDefault().Shape)
-
-                            </td>
-                            <td style="padding-left:40px; font-weight:bold; font-size:large">
-                                @Html.DisplayNameFor(x => x.Jewelries.FirstOrDefault().Metal)
-                            </td>
-
-                            <td style="padding-left:40px; font-weight:bold; font-size:large">
-                                @Html.DisplayNameFor(x => x.Jewelries.FirstOrDefault().Brand)
-                            </td>
-
-                            <td style="padding-left:40px; font-weight:bold; font-size:large">
-                                @Html.DisplayNameFor(x => x.Jewelries.FirstOrDefault().Price.Value)
-                            </td>
-                            <td style="padding-left:40px; font-weight:bold; font-size:large">
-                                @Html.DisplayNameFor(x => x.Jewelries.FirstOrDefault().Price.Currency)
-                            </td>
-
-                        </tr>
+                <td  style="position:absolute; margin-top:130px; margin-left:550px;" >
+                    <table  >
+                        
                             @foreach (var jewelry in Model.Jewelries)
                             {
                                 <tr style="font-size:large;">
